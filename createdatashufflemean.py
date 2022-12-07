@@ -1,4 +1,4 @@
-#这个文件用来生成numpy文件的模拟
+#This file generate the simulation data.
 #self.inputsize0 -0.2    and  self.inputsize0 -0.2+delta (shuffled)
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
