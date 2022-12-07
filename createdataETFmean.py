@@ -1,4 +1,4 @@
-#这个文件用来生成numpy文件的模拟
+#This file generate the simulation data.
 #sigma fixed, with mu different to get the different SNR, tuning by t.
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
