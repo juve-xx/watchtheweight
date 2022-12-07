@@ -1,5 +1,4 @@
 #Combine the generated data with torch.dataset
-#yigege lai
 
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -7,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-# import tensorflow
+
 
 from torch.autograd import Variable
 import torchvision.datasets
