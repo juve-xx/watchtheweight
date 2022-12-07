@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import random
 # from MiniAlexnet import Net
 from simulation3autosdhook import simulation_net
+#from simulation3autosdhook import simulation_net     #  get different shapes of networks.
 #
 from MyData_numpy import MyDataset
 from MyData_numpy import MyDataset_Test
@@ -154,12 +155,6 @@ def Scriteria(eigenvalues,Headspikes=0,Tailspikes=0):
     g = lambda x: np.abs(f(x) - High)
     s = integrate.quad(g, evals[a], evals[b])[0]
     S_diff = S_diff + s
-    # F1=np.sum(evals<evals[a])  #This is <, in the else is <=
-    # F2=np.sum(evals<=evals[b-1])
-    # s=(F2-F1)/length
-    # stheory = integrate.quad(f, evals[a], evals[b-1])
-    # S_diff=np.abs(stheory[0]-s)+S_diff
-    # S_diff=S_diff+stheory[0]
     return S_diff
 
 T = list(np.arange(0.01,1.19,0.01).round(3))
