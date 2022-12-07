@@ -29,28 +29,20 @@ method='SGD'
 batch_size=64
 simulationname = 'simulation2'
 this_im=3
-# this_im=1
+
 num=8  #The number of labels
-r=248
+epoch=248
 C_name='/home/r4user1/RMTLearn/' + simulationname + '/' + 'picture' + '/fc'+str(this_im)+'_NUM='+str(num)+'/'
 #
 mkdir(C_name)
-t=0.9   # the tuning parameter of SNR
-checkt=3.28   #the specific checked number.
-T = list(np.arange(0.91,0.94,0.01).round(3))
-# T1=np.array(random.sample(ra nge(76,83),6))*0.005
-T1=[0.24,0.64,0.8,1.04,2.0,checkt]
-# T1=np.sort(np.random.choice(T1,size=6))
-T2=np.arange(3.12,4.8,0.08).round(3)
-T2=np.sort(np.random.choice(T2,size=6))
-# T1=[0.08,0.96,1.44,1.68,2.24,2.4]
-# T2=[2.48,2.96,3.2,3.6,4.0,4.24]
-T3=[0.01,0.12,0.07,0.16]
+#t=0.9   # t is the tuning parameter of SNR
+T = list(np.arange(0.01,1.19,0.01).round(3))
+
 count=0
 plt.figure(figsize=(8,7))
 # plt.tight_layout()
 # plt.subplots_adjust(wspace=0,hspace=2)
-for r in [16,28,32,248]:
+for t in T:
     print(t)
     # t=t.round(3)
     count=count+1
@@ -65,7 +57,7 @@ for r in [16,28,32,248]:
     # PATH_SAVE = "/home/r4user1/neuralcollapes/" + Net_name + "/batch" \
     #             + str(batch_size) + "/" + str(lr) + "/" + method + '/' +'sdtime0'+'/'+ 'label' + str(num)
 
-    READ_PATH = PATH_SAVE + '/model' + str(r) + '.pth'
+    READ_PATH = PATH_SAVE + '/model' + str(epoch) + '.pth'
     model = simulation_net  # keep the same of simulation net.
     model = torch.load(READ_PATH, map_location='cpu')
     NET=model
@@ -124,6 +116,6 @@ for r in [16,28,32,248]:
     # if count==3:
     if t==checkt:
         print(evals_FC[0:10])
-# plt.savefig(C_name+'epoch'+str(r)+'T1'+'.eps')
+# plt.savefig(C_name+'epoch'+str(epoch)+'T1'+'.eps')
 plt.show()
 
