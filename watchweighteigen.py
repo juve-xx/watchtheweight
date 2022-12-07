@@ -4,7 +4,10 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-from simulation2autosdhook import simulation_net
+from simulation1autosdhook import simulation_net
+#from VGG import Net  # get different shapes of networks.
+from  import *
+
 import shutil
 from scipy.linalg import svd
 from MyData_numpy import MyDataset
@@ -14,70 +17,6 @@ from torch.utils.data import DataLoader
 
 device=torch.device('cuda')
 dtype = torch.float32
-
-def mkdir(path):
-    folder = os.path.exists(path)
-
-    if not folder:  
-        os.makedirs(path)  # makedirs 
-    return path
-
-def marchenko_pastur_pdf(x_min,x_max,Q,sigma=1):
-    y=1/Q
-    x=np.arange(x_min,x_max,0.001)
-    if y<=1:
-        b = np.power(sigma * (1 + np.sqrt(1/Q)),2)
-        a = np.power(sigma * (1 - np.sqrt(1/Q)),2)
-        return x,(1/(2*np.pi*sigma*sigma*x*y))*np.sqrt(np.abs((b-x)*(x-a)))
-    if y > 1:
-        b = np.power(sigma * (1 + np.sqrt(1 / Q)), 2)
-        a = np.power(sigma * (1 - np.sqrt(1 / Q)), 2)
-        return x, (1 / (2 * np.pi * sigma * sigma * x * y)) * np.sqrt(np.abs((b-x)*(x-a)))*Q
-
-def get_sigma_Q1(x_min,x_max): #Q<1
-    if x_min<=0:
-        raise Exception('Xmin should be larger than 0')
-    if x_max<=x_min:
-        raise Exception('Xmax should be larger than xmin')
-    Q=1/np.power(2/(1-np.sqrt(x_min/x_max))-1,2)
-    sigma=np.sqrt(x_min/np.power(2/(1-np.sqrt(x_min/x_max))-2,2))
-    return Q,sigma
-
-
-def get_sigma_Q0(x_min,x_max): #Q>1
-    if x_min<=0:
-        raise Exception('Xmin should be larger than 0')
-    if x_max<=x_min:
-        raise Exception('Xmax should be larger than xmin')
-    Q=1/np.power(2/(1+np.sqrt(x_min/x_max))-1,2)
-    sigma=np.sqrt(x_min/np.power(2/(1+np.sqrt(x_min/x_max))-2,2))
-    return Q,sigma
-
-
-
-def plot_esd_fit_mp(eigenvalues=None, num_spikes=0, alpha=0.25, color='blue'):
-    if eigenvalues is None:
-        return 0
-    evals=np.sort(eigenvalues)[::-1][num_spikes:]
-    x_min,x_max=np.min(evals),np.max(evals)
-    plt.hist(eigenvalues,bins=80,alpha=alpha,color=color,density=True,label=r'$\rho_{emp}(\lambda)$')
-    if x_min==0:
-        x_min1=np.min(evals[evals>0])
-        Q,sigma=get_sigma_Q1(x_min1,x_max)
-        x,mp=marchenko_pastur_pdf(x_min1,x_max,Q,sigma)
-
-    elif x_min>0:
-        Q,sigma=get_sigma_Q0(x_min,x_max)
-        x,mp=marchenko_pastur_pdf(x_min,x_max,Q,sigma)
-    else:
-        raise Exception('Xmin not correct')
-
-    plt.plot(x,mp,linewidth=1, color='r', label='MP fit')
-    plt.yticks(fontproperties='Times New Roman', size=6)
-    plt.xticks(fontproperties='Times New Roman', size=6)
-
-    return sigma
-
 
 
 
@@ -96,8 +35,8 @@ r=248
 C_name='/home/r4user1/RMTLearn/' + simulationname + '/' + 'picture' + '/fc'+str(this_im)+'_NUM='+str(num)+'/'
 #
 mkdir(C_name)
-t=0.9
-checkt=3.28
+t=0.9   # the tuning parameter of SNR
+checkt=3.28   #the specific checked number.
 T = list(np.arange(0.91,0.94,0.01).round(3))
 # T1=np.array(random.sample(ra nge(76,83),6))*0.005
 T1=[0.24,0.64,0.8,1.04,2.0,checkt]
