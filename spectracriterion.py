@@ -16,6 +16,13 @@ from scipy.linalg import svd
 import shutil
 
 
+def mkdir(path):
+    folder = os.path.exists(path)
+
+    if not folder:  
+        os.makedirs(path)  
+    return path
+
 def marchenko_pastur_pdf(x_min,x_max,Q,sigma=1):
     y=1/Q
     x=np.arange(x_min,x_max,0.001)
