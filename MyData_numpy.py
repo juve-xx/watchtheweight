@@ -1,4 +1,4 @@
-#这个文件是用来将numpy生成的数据封装成与torch dataset兼容的输入
+#Combine the generated data with torch.dataset
 #yigege lai
 
 import os
@@ -22,13 +22,12 @@ from torchvision import models
 import json
 transform = transforms.Compose(
     [transforms.ToTensor()])
+
+#The path is exactly the generated data stored. Readers may setup his/her own path.
+
 class MyDataset(Dataset):
     def __init__(self):
-        # self.inputs = np.load('/home/r4user1/torchmodelcheck/MiniAlexnet/batch64/0.01/SGD/50/fc1/input.npy',allow_pickle=True)[0:5000,]
-        # self.label=np.load('/home/r4user1/torchmodelcheck/MiniAlexnet/batch64/0.01/SGD/50/fc1/input_label.npy',allow_pickle=True)[0:5000]
-        # 一个是模拟, 一个是真实数据,上面是真实数据
-        # self.inputs=np.load('/home/r4user1/MyData/gamma3_input.npy')
-        # self.label = np.load('/home/r4user1/MyData/gamma3_label.npy')
+
         self.inputs=np.load('/home/r4user1/MyData/normal_input_train.npy')
         self.label = np.load('/home/r4user1/MyData/normal_label_train.npy')
 
@@ -41,12 +40,7 @@ class MyDataset(Dataset):
         return input,label
 class MyDataset_Test(Dataset):
     def __init__(self):
-        # self.inputs = np.load('/home/r4user1/torchmodelcheck/MiniAlexnet/batch64/0.01/SGD/50/fc1/input.npy', allow_pickle=True)[5001:8000,]
-        # self.label = np.load('/home/r4user1/torchmodelcheck/MiniAlexnet/batch64/0.01/SGD/50/fc1/input_label.npy',
-        #                      allow_pickle=True)[5001:8000]
 
-        # self.inputs = np.load('/home/r4user1/MyData/gamma3_input_test.npy')
-        # self.label = np.load('/home/r4user1/MyData/gamma3_label_test.npy')
         self.inputs=np.load('/home/r4user1/MyData/normal_input_test.npy')
         self.label = np.load('/home/r4user1/MyData/normal_label_test.npy')
 
