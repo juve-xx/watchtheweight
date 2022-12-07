@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import random
 from simulation1autosdhook import simulation_net
 #from VGG import Net  # get different shapes of networks.
-from  import *
+from spectracriterion import *
 
 import shutil
 from scipy.linalg import svd
@@ -110,10 +110,15 @@ for r in [16,28,32,248]:
 
     figpara=int(230+count)
     ax=plt.subplot(figpara)
-    plot_esd_fit_mp(evals_FC,num_spikes=(num),alpha=0.25)
-    # plot_esd_fit_mp(evals_FC[num:(len(evals_FC)-2*num)], num_spikes=num, alpha=0.25)
+    numspikes=detectspikes(evals_FC,alpha=5) #we may tune the alpha here to get the correct spikes.
+    HS=numspikes[0]
+    TS=numspikes[1]
+    plot_esd_fit_mp(evals_FC,Headspikes=HS,Tailspikes=TS,alpha=0.25)
+    S=Scriteria(eigenvalues=evals_FC,Headspikes=numspikes[0],Tailspikes=numspikes[1])
 
-    # plot_esd_fit_mp(evals_FC[num:len(evals_FC)], num_spikes=0, alpha=0.25)
+    length=len(evals_FC)-np.sum(numspikes)
+
+    crit=0.6*np.sqrt((np.log(length)/np.power(length,2/3)))
 
     ax.set_title('t='+str(t))
     # if count==3:
