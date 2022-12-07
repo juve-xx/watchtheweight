@@ -21,8 +21,8 @@ import my_transform
 def mkdir(path):
     folder = os.path.exists(path)
 
-    if not folder:  # 判断是否存在文件夹如果不存在则创建为文件夹
-        os.makedirs(path)  # makedirs 创建文件时如果路径不存在会创建这个路径
+    if not folder:  
+        os.makedirs(path)  # makedirs create the path if it does not exist
 
 method="SGD"
 lr=0.1
@@ -45,7 +45,7 @@ dtype = torch.float32
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5,), (0.5, ))
-     ])#这里要观察数据channel是一还是三
+     ])
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=0)
@@ -57,11 +57,11 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle
 def vgg_block(num_convs, in_channels, out_channels):
     net = [nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1), nn.ReLU(True)]
 
-    for i in range(num_convs - 1):  # 定义后面的许多层
+    for i in range(num_convs - 1):  
         net.append(nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1))
         net.append(nn.ReLU(True))
 
-    net.append(nn.MaxPool2d(2, 2))  # 定义池化层
+    net.append(nn.MaxPool2d(2, 2))  
     return nn.Sequential(*net)
 
 
@@ -75,11 +75,11 @@ def vgg_stack(num_convs,
     return nn.Sequential(*net)
 
 
-# 确定vgg的类型，是vgg11 还是vgg16还是vgg19
+# determine the class of VGG
 vgg_net = vgg_stack((1, 1, 2, 2, 2), ((3, 64), (64, 128), (128, 256), (256, 512), (512, 512)))
 
 
-# vgg类
+# vgg class
 class vgg(nn.Module):
     def __init__(self):
         super(vgg, self).__init__()
@@ -97,7 +97,6 @@ class vgg(nn.Module):
         return x
 
 
-# 获取vgg网络
 net = vgg()
 
 
@@ -117,7 +116,7 @@ net = vgg()
 # #
 
 net=net.cuda()
-#模型定义完毕
+
 
 
 criterion = nn.CrossEntropyLoss()
